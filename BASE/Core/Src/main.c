@@ -188,6 +188,17 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
 				HAL_UART_Receive_DMA(&huart1,Rx_Data,18);
 }
 	
+void Motor_control(Speed_System *Speed,Pos_System *Pos,uint8_t *RxData,uint8_t *TxData)
+{
+
+
+			Speed_Info_Analysis(Speed,RxData);
+			PID_Speed_Cal(Speed,TxData);
+			Send_To_Motor(&hcan1,TxData);
+
+	}
+
+
 /* USER CODE END 4 */
 
 /**

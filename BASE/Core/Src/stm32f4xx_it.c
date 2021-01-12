@@ -272,7 +272,7 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
-	HAL_UART_Receive_DMA(&huart1,Rx_Data,18);
+	HAL_UART_Receive_DMA(&huart1,Rx_Data,18);	
   /* USER CODE END USART1_IRQn 1 */
 }
 

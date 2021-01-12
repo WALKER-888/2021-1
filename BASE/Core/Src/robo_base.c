@@ -46,6 +46,21 @@
 //移植建议:
 //		大框架不需要改, 要改的话, 信息解析的地方根据通信协议来改就行.
 //--------------------------------------------------------------------------------------------------//
+
+BASE base;
+//初始化四个电机
+void Init_All(void)
+{
+	PID_Init(&base.MotorLF.Speed_PID,5,0,0,5000,0,5000,5000);
+	PID_Init(&base.MotorRF.Speed_PID,5,0,0,5000,0,5000,5000);
+	PID_Init(&base.MotorLB.Speed_PID,5,0,0,5000,0,5000,5000);
+	PID_Init(&base.MotorRB.Speed_PID,5,0,0,5000,0,5000,5000);
+	base.MotorLF.Motor_Num=0;
+	base.MotorRF.Motor_Num=1;
+	base.MotorLB.Motor_Num=2;
+	base.MotorRB.Motor_Num=3;
+}
+
 void Pos_Info_Analysis(Motor_Pos_Info* Motor,uint8_t* RX_Data)
 {
   //数据解析
@@ -335,3 +350,23 @@ void Send_To_Motor(CAN_HandleTypeDef *hcan,uint8_t* Tx_Data)
 	}
 }
 
+void Motor_Analysis(BASE *Base,uint16_t Motor_Num)
+{
+	switch (Motor_Num)
+	{
+		case 0x201:
+			Motor_control(&Base->MotorLF);
+			break;
+		case 0x202:
+			Motor_control(&Base->MotorRF);
+			break;
+		case 0x203:
+			Motor_control(&Base->MotorRB);
+			break;
+		case 0x204:
+			Motor_control(&Base->MotorLB);
+			break;
+		default :
+			break;
+	}
+}
